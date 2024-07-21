@@ -25,6 +25,10 @@ function Transaksi() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!barang_id || !jumlah_terjual || !tanggal_transaksi) {
+      alert("Mohon isi semua field");
+      return;
+    }
     try {
       const response = await fetch("/api/transaksi", {
         method: "POST",

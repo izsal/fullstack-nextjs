@@ -18,15 +18,23 @@ function Barang() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch("/api/barang", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nama_barang, stok, jenis_barang }),
-    });
-    // Refresh data
-    fetch("/api/barang")
-      .then((res) => res.json())
-      .then((data) => setBarangs(data));
+    if (!nama_barang || !stok || !jenis_barang) {
+      alert("Mohon isi semua field");
+      return;
+    }
+    try {
+      await fetch("/api/barang", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nama_barang, stok, jenis_barang }),
+      });
+      // Refresh data
+      fetch("/api/barang")
+        .then((res) => res.json())
+        .then((data) => setBarangs(data));
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const updateBarang = async (id, updatedBarang) => {
